@@ -1,0 +1,41 @@
+
+9/27	MS	9:06	9:43		4	37	Analysis Q4 - inital file creation
+9/27	MS	9:44	10:58		4	74	created function/program design
+9/27	MS	11:33	11:37		4	4	added next-state-after-e function
+
+9/27	MS	11:38	12:48	4	1	66	laying out Q1 trying to follow recipe; trying to understand dynamics of requirements
+9/27	MS	12:52	13:55		1	63	some syntax not clear for direction of robot; not clear on final display
+9/27	MS	13:58	14:10		1,2	12			
+9/27 	MS 	15:10	16:04	30	2	24	
+9/27	MS	16:05	17:05		2	60
+9/27	MS	17:17	17:55		3	38	n/a
+9/27	MS	17:56	18:30		4	34
+
+
+
+============committing to git: 9/27 18:33 ===================
+
+
+
+Total Time On Task Q1 (minutes)                  135
+Total Time On Task Q2 (minutes)                  84
+Total Time On Task Q3 (minutes)                  38
+Total Time On Task Q4 (minutes)                  149
+TOTQ1 (hours and tenths)                         2.3
+TOTQ2 (hours and tenths)                       	 1.4
+TOTQ1 (hours and tenths)                         .6
+TOTQ2 (hours and tenths)                         2.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+

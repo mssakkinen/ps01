@@ -1,0 +1,33 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname snacks) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor mixed-fraction #f #t none #f ((lib "image.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp")))))
+;A CustomerInput is one of
+;-- a positive Number PosInt interp: insert the specified number of cents
+;-- "chocolate"       interp: request a chocolate bar
+;-- "carrots"         interp: request a package of carrot sticks
+;-- "release"         interp: return all the coins that the customer has put in
+
+
+;You are to write a file called snacks.rkt that provides the following functions:
+;initial-machine : Number Number NonNegInt NonNegInt-> Machine
+;GIVEN: the number of chocolate bars and the number of packages of
+;carrot sticks
+;RETURNS: a machine loaded with the given number of chocolate bars and
+;carrot sticks, with an empty bank.
+
+;machine-next-state : Machine CustomerInput -> Machine
+;GIVEN: a machine state and a customer input
+;RETURNS: the state of the machine that should follow the customer's
+;input
+
+;machine-chocolates : Machine ->  Number NonNegInt
+;GIVEN: a machine state
+;RETURNS: the number of chocolate bars left in the machine
+
+;machine-carrots : Machine ->  Number NonNegInt
+;GIVEN: a machine state
+;RETURNS: the number of packages of carrot sticks left in the machine
+
+;machine-bank : Machine ->  Number NonNegInt
+;GIVEN: a machine state
+;RETURNS: the amount of money in the machine's bank, in cents
