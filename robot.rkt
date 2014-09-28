@@ -1,740 +1,280 @@
-#reader(lib"read.ss""wxme")WXME0108 ## 
-#|
-   This file uses the GRacket editor format.
-   Open this file in DrRacket version 6.1 or later to read it.
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname robot) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor mixed-fraction #f #t none #f ((lib "image.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp")))))
+(require rackunit)
+(require 2htdp/image)
+(require "extras.rkt")
 
-   Most likely, it was created by saving a program in DrRacket,
-   and it probably contains a program with non-text elements
-   (such as images or comment boxes).
+;(provide
+;  initial-robot
+;  robot-left 
+;  robot-right
+;  robot-forward
+;  robot-north? 
+;  robot-south? 
+;  robot-east? 
+;  robot-west?)
 
-            http://racket-lang.org/
-|#
- 31 7 #"wxtext\0"
-3 1 6 #"wxtab\0"
-1 1 8 #"wximage\0"
-2 0 8 #"wxmedia\0"
-4 1 34 #"(lib \"syntax-browser.ss\" \"mrlib\")\0"
-1 0 16 #"drscheme:number\0"
-3 0 44 #"(lib \"number-snip.ss\" \"drscheme\" \"private\")\0"
-1 0 36 #"(lib \"comment-snip.ss\" \"framework\")\0"
-1 0 93
-(
- #"((lib \"collapsed-snipclass.ss\" \"framework\") (lib \"collapsed-sni"
- #"pclass-wxme.ss\" \"framework\"))\0"
-) 0 0 43 #"(lib \"collapsed-snipclass.ss\" \"framework\")\0"
-0 0 19 #"drscheme:sexp-snip\0"
-0 0 36 #"(lib \"cache-image-snip.ss\" \"mrlib\")\0"
-1 0 68
-(
- #"((lib \"image-core.ss\" \"mrlib\") (lib \"image-core-wxme.rkt\" \"mr"
- #"lib\"))\0"
-) 1 0 29 #"drscheme:bindings-snipclass%\0"
-1 0 88
-(
- #"((lib \"pict-snip.rkt\" \"drracket\" \"private\") (lib \"pict-snip.r"
- #"kt\" \"drracket\" \"private\"))\0"
-) 0 0 34 #"(lib \"bullet-snip.rkt\" \"browser\")\0"
-0 0 25 #"(lib \"matrix.ss\" \"htdp\")\0"
-1 0 22 #"drscheme:lambda-snip%\0"
-1 0 29 #"drclickable-string-snipclass\0"
-0 0 26 #"drracket:spacer-snipclass\0"
-0 0 57
-#"(lib \"hrule-snip.rkt\" \"macro-debugger\" \"syntax-browser\")\0"
-1 0 26 #"drscheme:pict-value-snip%\0"
-0 0 45 #"(lib \"image-snipr.ss\" \"slideshow\" \"private\")\0"
-1 0 38 #"(lib \"pict-snipclass.ss\" \"slideshow\")\0"
-2 0 55 #"(lib \"vertical-separator-snip.ss\" \"stepper\" \"private\")\0"
-1 0 18 #"drscheme:xml-snip\0"
-1 0 31 #"(lib \"xml-snipclass.ss\" \"xml\")\0"
-1 0 21 #"drscheme:scheme-snip\0"
-2 0 34 #"(lib \"scheme-snipclass.ss\" \"xml\")\0"
-1 0 10 #"text-box%\0"
-1 0 32 #"(lib \"text-snipclass.ss\" \"xml\")\0"
-1 0 1 6 #"wxloc\0"
-          0 0 65 0 1 #"\0"
-0 75 1 #"\0"
-0 10 90 -1 90 -1 3 -1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 255 255 255 1 -1 0 9
-#"Standard\0"
-0 75 12 #"Courier New\0"
-0 10 90 -1 90 -1 3 -1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 255 255 255 1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 -1 -1 2 24
-#"framework:default-color\0"
-0 -1 1 #"\0"
-1 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1 2
-1 #"\0"
-0 -1 1 #"\0"
-1 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 0 0 0 1 1 1 150 0 150 0 0 0 -1 -1 2 15
-#"text:ports out\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 150 0 150 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 93 -1 -1 -1 0 0 0 0 0 0 0 0 0 1.0 1.0 1.0 255 0 0 0 0 0 -1
--1 2 15 #"text:ports err\0"
-0 -1 1 #"\0"
-1 0 -1 92 93 -1 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 255 0 0 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 175 0 0 0 -1 -1 2 17
-#"text:ports value\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 175 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1.0 0 92 -1 -1 -1 -1 -1 0 0 0 0 0 0 0 0 0 1.0 1.0 1.0 34 139 34 0 0 0 -1
--1 2 27 #"Matching Parenthesis Style\0"
-0 -1 1 #"\0"
-1.0 0 92 -1 -1 -1 -1 -1 0 0 0 0 0 0 0 0 0 1.0 1.0 1.0 34 139 34 0 0 0 -1
--1 2 1 #"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 38 38 128 0 0 0 -1 -1 2 37
-#"framework:syntax-color:scheme:symbol\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 38 38 128 0 0 0 -1 -1 2 38
-#"framework:syntax-color:scheme:keyword\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 38 38 128 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 194 116 31 0 0 0 -1 -1 2
-38 #"framework:syntax-color:scheme:comment\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 194 116 31 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 41 128 38 0 0 0 -1 -1 2 37
-#"framework:syntax-color:scheme:string\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 41 128 38 0 0 0 -1 -1 2 35
-#"framework:syntax-color:scheme:text\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 41 128 38 0 0 0 -1 -1 2 39
-#"framework:syntax-color:scheme:constant\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 41 128 38 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 132 60 36 0 0 0 -1 -1 2 49
-#"framework:syntax-color:scheme:hash-colon-keyword\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 132 60 36 0 0 0 -1 -1 2 42
-#"framework:syntax-color:scheme:parenthesis\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 132 60 36 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 255 0 0 0 0 0 -1 -1 2 36
-#"framework:syntax-color:scheme:error\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 255 0 0 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 -1 -1 2 36
-#"framework:syntax-color:scheme:other\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 -1 -1 2 16
-#"Misspelled Text\0"
-0 -1 1 #"\0"
-1 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 81 112 203 0 0 0 -1 -1 2
-38 #"drracket:check-syntax:lexically-bound\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 81 112 203 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 178 34 34 0 0 0 -1 -1 2 28
-#"drracket:check-syntax:set!d\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 178 34 34 0 0 0 -1 -1 2 37
-#"drracket:check-syntax:unused-require\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 255 0 0 0 0 0 -1 -1 2 36
-#"drracket:check-syntax:free-variable\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 255 0 0 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 68 0 203 0 0 0 -1 -1 2 31
-#"drracket:check-syntax:imported\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 68 0 203 0 0 0 -1 -1 2 47
-#"drracket:check-syntax:my-obligation-style-pref\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 178 34 34 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 0 116 0 0 0 0 -1 -1 2 50
-#"drracket:check-syntax:their-obligation-style-pref\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 0 116 0 0 0 0 -1 -1 2 48
-#"drracket:check-syntax:unk-obligation-style-pref\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 139 142 28 0 0 0 -1 -1 2
-49 #"drracket:check-syntax:both-obligation-style-pref\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 139 142 28 0 0 0 -1 -1 2
-26 #"plt:htdp:test-coverage-on\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 -1 -1 2 1
-#"\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 1 0 0 0 0 0 0 255 165 0 0 0 0 -1 -1 2 27
-#"plt:htdp:test-coverage-off\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 1 0 0 0 0 0 0 255 165 0 0 0 0 -1 -1 4 1
-#"\0"
-0 70 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 1.0 1.0 1.0 1.0 1.0 1.0 0 0 0 0 0 0
--1 -1 4 4 #"XML\0"
-0 70 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 1.0 1.0 1.0 1.0 1.0 1.0 0 0 0 0 0 0
--1 -1 2 37 #"plt:module-language:test-coverage-on\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 -1 -1 2 38
-#"plt:module-language:test-coverage-off\0"
-0 -1 1 #"\0"
-1 0 -1 92 -1 93 -1 -1 0 1 0 0 0 1 0 0 0 0 0 0 255 165 0 0 0 0 -1 -1 4 1
-#"\0"
-0 71 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 1.0 1.0 1.0 1.0 1.0 1.0 0 0 0 0 0 0
--1 -1 4 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 1 0 0 0 0 0 0 0 0 1.0 1.0 1.0 0 0 255 0 0 0 -1
--1 4 1 #"\0"
-0 71 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 1 0 0 0 0 0 0 0 0 1.0 1.0 1.0 0 0 255 0 0 0 -1
--1 4 1 #"\0"
-0 71 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 0 0 0 1.0 1.0 1.0 0 100 0 0 0 0 -1
--1 2 1 #"\0"
-0 71 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 1.0 1.0 1.0 1.0 1.0 1.0 0 0 0 0 0 0
--1 -1 2 1 #"\0"
-0 71 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 0 0 0 1.0 1.0 1.0 0 100 0 0 0 0 -1
--1 4 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1
-24 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1
-15 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1
-14 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1
-19 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1
-17 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1
-44 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1
-46 1 #"\0"
-0 -1 1 #"\0"
-1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 255 255 255 -1 -1
-          0 388 0 4 3 85
-(
- #";; The first three lines of this file were inserted by DrRacket. The"
- #"y record metadata"
-) 0 0 4 29 1 #"\n"
-0 0 4 3 85
-(
- #";; about the language level of this file in a form that our tools ca"
- #"n easily process."
-) 0 0 4 29 1 #"\n"
-0 0 4 3 407
-(
- #"#reader(lib \"htdp-beginner-reader.ss\" \"lang\")((modname robot) (r"
- #"ead-case-sensitive #t) (teachpacks ((lib \"image.rkt\" \"teachpack\""
- #" \"2htdp\") (lib \"batch-io.rkt\" \"teachpack\" \"2htdp\") (lib \"un"
- #"iverse.rkt\" \"teachpack\" \"2htdp\"))) (htdp-settings #(#t construc"
- #"tor mixed-fraction #f #t none #f"
- #" ((lib \"image.rkt\" \"teachpack\" \"2htdp\") (lib \"batch-io.rkt\" "
- #"\"teachpack\" \"2htdp\") (lib \"universe.rkt\" \"teachpack\" \"2htdp"
- #"\")))))"
-) 0 0 4 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 7 #"require"
-0 0 24 3 1 #" "
-0 0 14 3 8 #"rackunit"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 7 #"require"
-0 0 24 3 1 #" "
-0 0 14 3 11 #"2htdp/image"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 7 #"require"
-0 0 24 3 1 #" "
-0 0 19 3 12 #"\"extras.rkt\""
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 17 3 9 #";(provide"
-0 0 24 29 1 #"\n"
-0 0 17 3 16 #";  initial-robot"
-0 0 24 29 1 #"\n"
-0 0 17 3 14 #";  robot-left "
-0 0 24 29 1 #"\n"
-0 0 17 3 14 #";  robot-right"
-0 0 24 29 1 #"\n"
-0 0 17 3 16 #";  robot-forward"
-0 0 24 29 1 #"\n"
-0 0 17 3 16 #";  robot-north? "
-0 0 24 29 1 #"\n"
-0 0 17 3 16 #";  robot-south? "
-0 0 24 29 1 #"\n"
-0 0 17 3 15 #";  robot-east? "
-0 0 24 29 1 #"\n"
-0 0 17 3 15 #";  robot-west?)"
-0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 17 3 12 #";; CONSTANTS"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 1 #" "
-0 0 14 3 11 #"ROBOT-IMAGE"
-0 0 24 3 2 #" ("
-0 0 14 3 6 #"circle"
-0 0 24 3 1 #" "
-0 0 21 3 2 #"15"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"solid\""
-0 0 24 3 1 #" "
-0 0 19 3 5 #"\"red\""
-0 0 24 3 2 #"))"
-0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 17 3 25 #";; dimensions of the room"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 1 #" "
-0 0 14 3 10 #"ROOM-WIDTH"
-0 0 24 3 1 #" "
-0 0 21 3 3 #"200"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 1 #" "
-0 0 14 3 11 #"ROOM-HEIGHT"
-0 0 24 3 1 #" "
-0 0 21 3 3 #"400"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 1 #" "
-0 0 14 3 4 #"ROOM"
-0 0 24 3 2 #" ("
-0 0 14 3 11 #"empty-scene"
-0 0 24 3 1 #" "
-0 0 14 3 10 #"ROOM-WIDTH"
-0 0 24 3 1 #" "
-0 0 14 3 11 #"ROOM-HEIGHT"
-0 0 24 3 2 #"))"
-0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 17 3 20 #";;; DATA DEFINITION "
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 13 #"define-struct"
-0 0 24 3 1 #" "
-0 0 14 3 9 #"direction"
-0 0 24 3 2 #" ("
-0 0 14 3 9 #"direction"
-0 0 24 3 2 #"))"
-0 0 24 29 1 #"\n"
-0 0 17 3 47 #";;A direction is one of (make-direction String)"
-0 0 24 29 1 #"\n"
-0 0 17 3 13 #";; - \"north\" "
-0 0 24 29 1 #"\n"
-0 0 17 3 10 #";;  inter:"
-0 0 17 3 1 #" "
-0 0 17 3 3 #"the"
-0 0 17 3 22 #" robot is facing north"
-0 0 24 29 1 #"\n"
-0 0 17 3 13 #";; - \"south\" "
-0 0 24 29 1 #"\n"
-0 0 17 3 10 #";;  inter:"
-0 0 17 3 1 #" "
-0 0 17 3 3 #"the"
-0 0 17 3 22 #" robot is facing south"
-0 0 24 29 1 #"\n"
-0 0 17 3 12 #";; - \"east\" "
-0 0 24 29 1 #"\n"
-0 0 17 3 10 #";;  inter:"
-0 0 17 3 1 #" "
-0 0 17 3 3 #"the"
-0 0 17 3 21 #" robot is facing east"
-0 0 24 29 1 #"\n"
-0 0 17 3 11 #";; - \"west\""
-0 0 24 29 1 #"\n"
-0 0 17 3 10 #";;  inter:"
-0 0 17 3 1 #" "
-0 0 17 3 3 #"the"
-0 0 17 3 21 #" robot is facing west"
-0 0 24 29 1 #"\n"
-0 0 17 3 11 #";; Template"
-0 0 24 29 1 #"\n"
-0 0 17 3 27 #";; direction-fn : Direction"
-0 0 24 29 1 #"\n"
-0 0 17 3 1 #";"
-0 0 17 3 1 #"("
-0 0 17 3 6 #"define"
-0 0 17 3 19 #" (direction-fn dir)"
-0 0 24 29 1 #"\n"
-0 0 17 3 7 #";  (..."
-0 0 24 29 1 #"\n"
-0 0 17 3 1 #";"
-0 0 17 3 20 #"   (direction dir)))"
-0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 13 #"define-struct"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"robot"
-0 0 24 3 2 #" ("
-0 0 14 3 9 #"direction"
-0 0 24 3 1 #" "
-0 0 14 3 4 #"xPos"
-0 0 24 3 1 #" "
-0 0 14 3 4 #"yPos"
-0 0 24 3 2 #"))"
-0 0 24 29 1 #"\n"
-0 0 17 3 51 #";;A robot is a (make-robot direction PosInt PosInt)"
-0 0 24 29 1 #"\n"
-0 0 17 3 9 #";;INTERP:"
-0 0 24 29 1 #"\n"
-0 0 17 3 41 #";; dirction is the direct robot is facing"
-0 0 24 29 1 #"\n"
-0 0 17 3 11 #";;Template:"
-0 0 24 29 1 #"\n"
-0 0 17 3 25 #";; robot-fn : Robot -> ??"
-0 0 24 29 1 #"\n"
-0 0 17 3 21 #";(define (robot-fn r)"
-0 0 24 29 1 #"\n"
-0 0 17 3 7 #";  (..."
-0 0 24 29 1 #"\n"
-0 0 17 3 23 #";   (robot-direction r)"
-0 0 24 29 1 #"\n"
-0 0 17 3 18 #";   (robot-xPos r)"
-0 0 24 29 1 #"\n"
-0 0 17 3 20 #";   (robot-yPos r)))"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #" "
-0 0 24 29 1 #"\n"
-0 0 17 3 34 #";initial-robot : Real Real-> Robot"
-0 0 24 29 1 #"\n"
-0 0 17 3 1 #";"
-0 0 17 3 33 #"GIVEN: a set of (x,y) coordinates"
-0 0 24 29 1 #"\n"
-0 0 17 3 1 #";"
-0 0 17 3 8 #"RETURNS:"
-0 0 17 3 1 #" "
-0 0 17 3 1 #"a"
-0 0 17 3 1 #" "
-0 0 17 3 5 #"robot"
-0 0 17 3 1 #" "
-0 0 17 3 48 #"with its at those coordinates, facing north(up)."
-0 0 24 29 1 #"\n"
-0 0 17 3 36 #";;STRATEGY: Functional Decomposition"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 2 #" ("
-0 0 14 3 13 #"initial-robot"
-0 0 24 3 1 #" "
-0 0 14 3 4 #"xPos"
-0 0 24 3 1 #" "
-0 0 14 3 4 #"yPos"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 3 #"  ("
-0 0 14 3 11 #"place-image"
-0 0 24 3 1 #" "
-0 0 14 3 11 #"ROBOT-IMAGE"
-0 0 24 3 2 #" ("
-0 0 14 3 10 #"make-robot"
-0 0 24 3 1 #" "
-0 0 14 3 4 #"xPos"
-0 0 24 3 1 #" "
-0 0 14 3 4 #"yPos"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"north\""
-0 0 24 3 2 #") "
-0 0 14 3 4 #"ROOM"
-0 0 24 3 2 #"))"
-0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 17 3 28 #";robot-left : Robot -> Robot"
-0 0 24 29 1 #"\n"
-0 0 17 3 29 #";robot-right : Robot -> Robot"
-0 0 24 29 1 #"\n"
-0 0 17 3 15 #";GIVEN: a robot"
-0 0 24 29 1 #"\n"
-0 0 17 3 1 #";"
-0 0 17 3 8 #"RETURNS:"
-0 0 17 3 1 #" "
-0 0 17 3 1 #"a"
-0 0 17 3 1 #" "
-0 0 17 3 5 #"robot"
-0 0 17 3 1 #" "
-0 0 17 3 4 #"like"
-0 0 17 3 1 #" "
-0 0 17 3 3 #"the"
-0 0 17 3 1 #" "
-0 0 17 3 8 #"original"
-0 0 17 3 35 #", but turned 90 degrees either left"
-0 0 24 29 1 #"\n"
-0 0 17 3 10 #";or right."
-0 0 24 29 1 #"\n"
-0 7         523 57           0 0           0 86 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 2 #" ("
-0 0 14 3 10 #"robot-left"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"robot"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 3 #"  ("
-0 0 15 3 4 #"cond"
-0 0 24 29 1 #"\n"
-0 0 24 3 6 #"    [("
-0 0 14 3 11 #"direction=?"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"north\""
-0 0 24 3 2 #") "
-0 0 19 3 6 #"\"west\""
-0 0 24 3 1 #"]"
-0 0 24 29 1 #"\n"
-0 0 24 3 6 #"    [("
-0 0 14 3 11 #"direction=?"
-0 0 24 3 1 #" "
-0 0 19 3 6 #"\"east\""
-0 0 24 3 2 #") "
-0 0 19 3 7 #"\"north\""
-0 0 24 3 1 #"]"
-0 0 24 29 1 #"\n"
-0 0 24 3 6 #"    [("
-0 0 14 3 11 #"direction=?"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"south\""
-0 0 24 3 2 #") "
-0 0 19 3 6 #"\"east\""
-0 0 24 3 1 #"]"
-0 0 24 29 1 #"\n"
-0 0 24 3 6 #"    [("
-0 0 14 3 11 #"direction=?"
-0 0 24 3 1 #" "
-0 0 19 3 6 #"\"west\""
-0 0 24 3 2 #") "
-0 0 19 3 7 #"\"south\""
-0 0 24 3 3 #"]))"
-0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 2 #" ("
-0 0 14 3 11 #"robot-right"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"robot"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 3 #"  ("
-0 0 15 3 4 #"cond"
-0 0 24 29 1 #"\n"
-0 0 24 3 6 #"    [("
-0 0 14 3 11 #"direction=?"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"north\""
-0 0 24 3 2 #") "
-0 0 19 3 6 #"\"east\""
-0 0 24 3 1 #"]"
-0 0 24 29 1 #"\n"
-0 0 24 3 6 #"    [("
-0 0 14 3 11 #"direction=?"
-0 0 24 3 1 #" "
-0 0 19 3 6 #"\"east\""
-0 0 24 3 2 #") "
-0 0 19 3 7 #"\"south\""
-0 0 24 3 1 #"]"
-0 0 24 29 1 #"\n"
-0 0 24 3 6 #"    [("
-0 0 14 3 11 #"direction=?"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"south\""
-0 0 24 3 2 #") "
-0 0 19 3 6 #"\"west\""
-0 0 24 3 1 #"]"
-0 0 24 29 1 #"\n"
-0 0 24 3 6 #"    [("
-0 0 14 3 11 #"direction=?"
-0 0 24 3 1 #" "
-0 0 19 3 6 #"\"west\""
-0 0 24 3 2 #") "
-0 0 19 3 7 #"\"north\""
-0 0 24 3 3 #"]))"
-0           0 0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 17 3 38 #";robot-forward : Robot PosInt -> Robot"
-0 0 24 29 1 #"\n"
-0 0 17 3 30 #";GIVEN: a robot and a distance"
-0 0 24 29 1 #"\n"
-0 0 17 3 1 #";"
-0 0 17 3 8 #"RETURNS:"
-0 0 17 3 1 #" "
-0 0 17 3 52 #"a robot like the given one, but moved forward by the"
-0 0 24 29 1 #"\n"
-0 0 17 3 77
-(
- #";specified number of pixels distance.  If moving forward the specifi"
- #"ed number"
-) 0 0 24 29 1 #"\n"
-0 0 17 3 60
-#";of pixels distance would cause the robot to move from being"
-0 0 24 29 1 #"\n"
-0 0 17 3 1 #";"
-0 0 17 3 8 #"entirely"
-0 0 17 3 1 #" "
-0 0 17 3 6 #"inside"
-0 0 17 3 1 #" "
-0 0 17 3 59
-#"the canvas room to being even partially outside the canvas "
-0 0 24 29 1 #"\n"
-0 0 17 3 46 #";room, then the robot should stop at the wall."
-0 0 24 29 1 #"\n"
-0 0 17 3 11 #";STRATEGY: "
-0 0 24 29 1 #"\n"
-0 0 17 3 1 #";"
-0 0 17 3 1 #"("
-0 0 17 3 6 #"define"
-0 0 17 3 2 #" ("
-0 0 17 3 29 #"robot-forward robot distance)"
-0 0 24 29 1 #"\n"
-0 0 17 3 4 #";  )"
-0 0 24 29 1 #"\n"
-0 0 24 29 1 #"\n"
-0 0 17 3 32 #";robot-north? : Robot -> Boolean"
-0 0 24 29 1 #"\n"
-0 0 17 3 32 #";robot-south? : Robot -> Boolean"
-0 0 24 29 1 #"\n"
-0 0 17 3 31 #";robot-east? : Robot -> Boolean"
-0 0 24 29 1 #"\n"
-0 0 17 3 31 #";robot-west? : Robot -> Boolean"
-0 0 24 29 1 #"\n"
-0 0 17 3 15 #";GIVEN: a robot"
-0 0 24 29 1 #"\n"
-0 0 17 3 65
-#";ANSWERS: whether the robot is facing in the specified direction."
-0 0 24 29 1 #"\n"
-0 0 17 3 35 #";STRATEGY: Functional Decomposition"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 2 #" ("
-0 0 14 3 3 #"rob"
-0 0 14 3 1 #"o"
-0 0 14 3 8 #"t-north?"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"robot"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 3 #"  ("
-0 0 14 3 2 #"if"
-0 0 24 3 2 #" ("
-0 0 14 3 1 #"="
-0 0 24 3 1 #" "
-0 0 14 3 9 #"direction"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"north\""
-0 0 24 3 2 #") "
-0 0 14 3 4 #"true"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"false"
-0 0 24 3 2 #"))"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 2 #" ("
-0 0 14 3 3 #"rob"
-0 0 14 3 9 #"ot-south?"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"robot"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 3 #"  ("
-0 0 14 3 2 #"if"
-0 0 24 3 2 #" ("
-0 0 14 3 1 #"="
-0 0 24 3 1 #" "
-0 0 14 3 9 #"direction"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"south\""
-0 0 24 3 2 #") "
-0 0 14 3 4 #"true"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"false"
-0 0 24 3 2 #"))"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 2 #" ("
-0 0 14 3 3 #"rob"
-0 0 14 3 9 #"ot-north?"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"robot"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 3 #"  ("
-0 0 14 3 2 #"if"
-0 0 24 3 2 #" ("
-0 0 14 3 1 #"="
-0 0 24 3 1 #" "
-0 0 14 3 9 #"direction"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"south\""
-0 0 24 3 2 #") "
-0 0 14 3 4 #"true"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"false"
-0 0 24 3 2 #"))"
-0 0 24 29 1 #"\n"
-0 0 24 3 1 #"("
-0 0 15 3 6 #"define"
-0 0 24 3 2 #" ("
-0 0 14 3 3 #"rob"
-0 0 14 3 9 #"ot-north?"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"robot"
-0 0 24 3 1 #")"
-0 0 24 29 1 #"\n"
-0 0 24 3 3 #"  ("
-0 0 14 3 2 #"if"
-0 0 24 3 2 #" ("
-0 0 14 3 1 #"="
-0 0 24 3 1 #" "
-0 0 14 3 9 #"direction"
-0 0 24 3 1 #" "
-0 0 19 3 7 #"\"south\""
-0 0 24 3 2 #") "
-0 0 14 3 4 #"true"
-0 0 24 3 1 #" "
-0 0 14 3 5 #"false"
-0 0 24 3 2 #"))"
-0           0
+;; dimensions of the room
+(define ROOM-WIDTH 200)
+(define ROOM-HEIGHT 400)
+(define ROOM (empty-scene ROOM-WIDTH ROOM-HEIGHT))
+
+;;; DATA DEFINITION 
+(define-struct direction (direction))
+;;A direction is one of (make-direction String)
+;; - "north" 
+;;  inter: the robot is facing north
+;; - "south" 
+;;  inter: the robot is facing south
+;; - "east" 
+;;  inter: the robot is facing east
+;; - "west"
+;;  inter: the robot is facing west
+;; Template
+;; direction-fn : Direction
+;(define (direction-fn dir)
+;  (cond
+;    [(string=? dir "north")    
+;     ...]
+;    [(string=? dir "south")
+;     ...]
+;    [(string=? dir "east")  
+;     ...])
+;    [(string=? dir "west")  
+;     ...]))  
+
+(define-struct robot (direction xPos yPos))
+;;A robot is a (make-robot direction PosInt PosInt)
+;;INTERP:
+;; dirction is the direct robot is facing
+;;Template:
+;; robot-fn : Robot -> ??
+;(define (robot-fn r)
+;  (...
+;   (robot-direction r)
+;   (robot-xPos r)
+;   (robot-yPos r)))
+ 
+;;CONSTANTS ** for testing **
+(define ROBOT-NORTH (make-robot "north" 10 10))
+(define ROBOT-SOUTH (make-robot "south" 20 20))
+(define ROBOT-WEST (make-robot "west" 30 30))
+(define ROBOT-EAST (make-robot "east" 40 40))
+
+;initial-robot : Real Real-> Robot
+;GIVEN: a set of (x,y) coordinates
+;RETURNS: a robot with its at those coordinates, facing north(up).
+;;STRATEGY: Functional Decomposition
+(define (initial-robot xPos yPos)
+  (make-robot "north " xPos yPos))
+
+;Examples for tests
+(define robot-initial-robot (initial-robot 10 20))
+
+;robot-left : Robot -> Robot
+;robot-right : Robot -> Robot
+;GIVEN: a robot
+;RETURNS: a robot like the original, but turned 90 degrees either left
+;or right.
+;STRATEGY: Structural Decomposition on Robot : r
+(define (robot-left r)
+  (robot-left-helper
+   (robot-direction r)
+   (robot-xPos r)
+   (robot-yPos r)))
+
+(define (robot-right r)
+  (robot-right-helper
+   (robot-direction r)
+   (robot-xPos r)
+   (robot-yPos r)))
+
+(define (robot-left-helper dir x y)
+  (cond
+    [(string=? dir "north")    
+     (make-robot "west" x y)]
+    [(string=? dir "south")
+     (make-robot "east" x y)]
+    [(string=? dir "east")  
+     (make-robot "north" x y)]
+    [(string=? dir "west")  
+     (make-robot "south" x y)])) 
+
+(define (robot-right-helper dir x y)
+  (cond
+    [(string=? dir "north")    
+     (make-robot "east" x y)]
+    [(string=? dir "south")
+     (make-robot "west" x y)]
+    [(string=? dir "east")  
+     (make-robot "south" x y)]
+    [(string=? dir "west")  
+     (make-robot "north" x y)]))
+
+(begin-for-test  
+ ;; robot-turn left 90 degrees
+  (check-equal?
+    (robot-right ROBOT-SOUTH)
+    (make-robot "west" 20 20)
+    "robot facing SOUTH turning RIGHT should result in WEST")
+
+  (check-equal?
+    (robot-right ROBOT-NORTH)
+    (make-robot "east" 10 10)
+    "robot facing NORTH turning RIGHT should result in EAST")
+  
+  (check-equal?
+    (robot-right ROBOT-WEST)
+    (make-robot "north" 30 30)
+    "robot facing WEST turning RIGHT should result in NORTH")
+
+  (check-equal?
+    (robot-right ROBOT-EAST)
+    (make-robot "south" 40 40)
+    "robot facing EAST turning RIGHT should result in SOUTH")
+ ;; robot-turn left 90 degrees
+  (check-equal?
+    (robot-left ROBOT-SOUTH)
+    (make-robot "east" 20 20)
+    "robot facing SOUTH turning LEFTshould result in EAST")
+
+  (check-equal?
+    (robot-left ROBOT-NORTH)
+    (make-robot "west" 10 10)
+    "robot facing NORTH turning LEFT should result in WEST")
+  
+  (check-equal?
+    (robot-left ROBOT-WEST)
+    (make-robot "south" 30 30)
+    "robot facing WEST turning LEFT should result in SOUTH")
+
+  (check-equal?
+    (robot-left ROBOT-EAST)
+    (make-robot "north" 40 40)
+    "robot facing EAST turning LEFT should result in NORTH")
+  )
+
+;robot-north? : Robot -> Boolean
+;robot-south? : Robot -> Boolean
+;robot-east? : Robot -> Boolean
+;robot-west? : Robot -> Boolean
+;GIVEN: a robot
+;ANSWERS: whether the robot is facing in the specified direction.
+;STRATEGY: Structural decomposition on Robot : r
+(define (robot-north? r)
+  (robot-north-helper 
+   (robot-direction r)))
+
+(define (robot-north-helper dir)
+  (if (string=? dir "north")  true false))
+
+(define (robot-south? r)
+  (robot-south-helper 
+   (robot-direction r)))
+
+(define (robot-south-helper dir)
+  (cond
+    [(string=? dir "south") true]
+    [else false]))
+  ;;(if (string=? dir "south") true false))
+
+(define (robot-east? r)
+  (robot-east-helper 
+   (robot-direction r)))
+
+(define (robot-east-helper dir)
+  (if (string=? dir "east") true false))
+ 
+(define (robot-west? r)
+  (robot-west-helper
+   (robot-direction r)))
+
+(define (robot-west-helper dir)
+  (cond
+    [(string=? dir "west") true]
+    [else false]))
+
+(begin-for-test  
+  ;; predicate function directional testing
+  (check-equal?
+    (robot-north? ROBOT-NORTH)
+    true
+    "test of robot-north? expected true")
+
+  (check-equal?
+    (robot-south? ROBOT-SOUTH)
+    true
+    "test of robot-south? expected true")
+  
+   (check-equal?
+    (robot-west? ROBOT-WEST)
+    true
+    "test of robot-west? expected true")
+
+   (check-equal?
+    (robot-west? ROBOT-EAST)
+    false
+    "test of robot-west? expected false, robot 'east' given")
+   
+  (check-equal?
+    (robot-east? ROBOT-EAST)
+    true
+    "test of robot-east? expected true")
+  )
+
+;robot-forward : Robot PosInt -> Robot
+;GIVEN: a robot and a distance
+;RETURNS: a robot like the given one, but moved forward by the
+;specified number of pixels distance.  If moving forward the specified number
+;of pixels distance would cause the robot to move from being
+;entirely inside the canvas room to being even partially outside the canvas 
+;room, then the robot should stop at the wall.
+;STRATEGY: StructuralDecomposition on Robot : r
+(define (robot-forward r d)
+  (robot-forward-helper r d         
+   (robot-direction r)
+   (robot-xPos r)
+   (robot-yPos r)))
+
+(define (robot-forward-helper r dis dir x y)
+  (if (or (> x 200) (> y 400))
+      (cond
+        [(robot-north? r) (make-robot dir x (- y dis))]
+        [(robot-south? r) (make-robot dir x (+ y dis ))]
+        [(robot-east? r) (make-robot dir (+ x dis) y)]
+        [(robot-west? r) (make-robot dir (- x dis) y)])
+  (cond
+    [(robot-north? r) (if (> dis (- y 7.5)) (make-robot dir x 7.5) (make-robot dir x (- y dis)))]
+    [(robot-south? r) (if (> dis (- (- ROOM-HEIGHT 7.5) y)) (make-robot dir x (- ROOM-HEIGHT 7.5)) (make-robot dir x (- y dis)))]
+    [(robot-east? r) (if (> dis (- (- ROOM-WIDTH x) 7.5)) (make-robot dir (- ROOM-WIDTH 7.5) y) (make-robot dir (- x dis) y))]
+    [(robot-west? r) (if (> dis (- y 7.5)) (make-robot dir 7.5 y) (make-robot dir (+ x dis) y))])))
+
+;Examples for tests
+(define robot-move-forward-s (robot-forward ROBOT-SOUTH 100))
+(define robot-move-forward-n (robot-forward ROBOT-NORTH 100))
+(define robot-move-forward-w (robot-forward ROBOT-WEST 100))
+(define robot-move-forward-e (robot-forward ROBOT-EAST 100))
+
+(begin-for-test  
+  ;; robot-forward cardinal directions testing
+  (check-equal?
+    (robot-forward (make-robot "north" 10 10) 100)
+    (make-robot "north" 10 15/2)
+    "test of robot-foward expected (+ yPos 100) ")
+
+  (check-equal?
+    (robot-forward ROBOT-SOUTH 99)
+    (make-robot "south" 20 -79)
+    "test of robot-foward expected negative y-axis")
+  
+   (check-equal?
+    (robot-forward (make-robot "west" 10 10) 98)
+    (make-robot "west" 15/2 10)
+    "test of robot-forward expected x-axis decrement")
+
+  (check-equal?
+    (robot-forward ROBOT-EAST 97)
+   (make-robot "east" -57 40)
+    "test of robot-forward expected x-axis increment")
+  )
